@@ -25,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) UIImage *image;
 
 /**
+ *  The image url.
+*/
+@property (nonatomic, readonly, nullable) NSString *imageURL;
+
+/**
  *  The image data to display.
  *  
  *  This property's value, if non-`nil`, is preferred over `-image`. This allows clients to provide image data for FLAnimatedImage when the library is compiled with `ANIMATED_GIF_SUPPORT` defined.

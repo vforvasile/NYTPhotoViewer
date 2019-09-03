@@ -199,6 +199,8 @@ extern NSString * const NYTPhotosViewControllerDidDismissNotification;
  */
 - (void)photosViewControllerDidDismiss:(NYTPhotosViewController *)photosViewController;
 
+- (void)photosViewOpenProjectDetailControllerDidDismiss:(NYTPhotosViewController *)photosViewController;
+
 /**
  *  Returns a view to display over a photo, full width, locked to the bottom, representing the caption for the photo.
  *

@@ -16,7 +16,7 @@
 #import "NYTPhotosOverlayView.h"
 #import "NYTPhotoCaptionView.h"
 #import "NSBundle+NYTPhotoViewer.h"
-
+#import "MerryPhoto.h"
 #ifdef ANIMATED_GIF_SUPPORT
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #endif
@@ -125,7 +125,6 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
     if (self.currentlyDisplayedPhoto.image || self.currentlyDisplayedPhoto.placeholderImage) {
         endingView = self.currentPhotoViewController.scalingImageView.imageView;
     }
-    
     self.transitionController.endingView = endingView;
 }
 
@@ -199,7 +198,23 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         NYTPhotosOverlayView *v = [[NYTPhotosOverlayView alloc] initWithFrame:CGRectZero];
         v.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NYTPhotoViewerCloseButtonX" inBundle:[NSBundle nyt_photoViewerResourceBundle] compatibleWithTraitCollection:nil] landscapeImagePhone:[UIImage imageNamed:@"NYTPhotoViewerCloseButtonXLandscape" inBundle:[NSBundle nyt_photoViewerResourceBundle] compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonTapped:)];
         v.leftBarButtonItem.imageInsets = NYTPhotosViewControllerCloseButtonImageInsets;
-        v.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonTapped:)];
+        ////
+        UIImage *faceImage = [UIImage imageNamed:@"info.png"];
+        UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
+        face.bounds = CGRectMake( 0, 0, faceImage.size.width+5, faceImage.size.height );
+        [face setImage:faceImage forState:UIControlStateNormal];
+        UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
+        
+        UIImage *shareImage = [UIImage imageNamed:@"ic_share.png"];
+        UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        shareBtn.bounds = CGRectMake( 0, 0, shareImage.size.width, shareImage.size.height );
+        [shareBtn setImage:shareImage forState:UIControlStateNormal];
+        UIBarButtonItem *sharebarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
+//
+       // UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showProjectDetailTapped:)];
+
+        /////
+        v.rightBarButtonItems = @[sharebarBtn,faceBtn];
         v;
     });
 
@@ -278,23 +293,33 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
     [self dismissViewControllerAnimated:YES userInitiated:YES completion:nil];
 }
 
+- (void)showProjectDetailTapped:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(photosViewOpenProjectDetailControllerDidDismiss:)]) {
+        [self.delegate photosViewOpenProjectDetailControllerDidDismiss:self];
+    }
+}
+
 - (void)actionButtonTapped:(id)sender {
     BOOL clientDidHandle = NO;
     
+    NSUInteger photoIndex = [self.dataSource indexOfPhoto:self.currentlyDisplayedPhoto];
+    id<NYTPhoto> photo = [self.dataSource photoAtIndex:photoIndex];
+
     if ([self.delegate respondsToSelector:@selector(photosViewController:handleActionButtonTappedForPhoto:)]) {
         clientDidHandle = [self.delegate photosViewController:self handleActionButtonTappedForPhoto:self.currentlyDisplayedPhoto];
     }
     
     if (!clientDidHandle && (self.currentlyDisplayedPhoto.image || self.currentlyDisplayedPhoto.imageData)) {
-        UIImage *image = self.currentlyDisplayedPhoto.image ? self.currentlyDisplayedPhoto.image : [UIImage imageWithData:self.currentlyDisplayedPhoto.imageData];
-        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[image] applicationActivities:nil];
+        //UIImage *image = self.currentlyDisplayedPhoto.image ? self.currentlyDisplayedPhoto.image : [UIImage imageWithData:self.currentlyDisplayedPhoto.imageData];
+        NSURL *imageURL = [NSURL URLWithString:photo.imageURL];
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[imageURL] applicationActivities:nil];
         activityViewController.popoverPresentationController.barButtonItem = sender;
         activityViewController.completionWithItemsHandler = ^(NSString * __nullable activityType, BOOL completed, NSArray * __nullable returnedItems, NSError * __nullable activityError) {
             if (completed && [self.delegate respondsToSelector:@selector(photosViewController:actionCompletedWithActivityType:)]) {
                 [self.delegate photosViewController:self actionCompletedWithActivityType:activityType];
             }
         };
-
         [self displayActivityViewController:activityViewController animated:YES];
     }
 }
