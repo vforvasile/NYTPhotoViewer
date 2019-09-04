@@ -7,10 +7,10 @@ Pod::Spec.new do |s|
                        DESC
   s.summary          = "NYTPhotoViewer is a slideshow and image viewer that includes double tap to zoom, flick to dismiss, animated presentation, and more."
 
-  s.homepage         = "https://github.com/NYTimes/NYTPhotoViewer"
+  s.homepage         = "https://github.com/Architizer/NYTPhotoViewer"
   s.author           = "The New York Times"
   s.license          = { :type => 'Apache 2.0' }
-  s.source           = { :git => "https://github.com/NYTimes/NYTPhotoViewer.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/Architizer/NYTPhotoViewer.git" }
 
   s.platform     = :ios, '8.0'
   s.requires_arc = true
