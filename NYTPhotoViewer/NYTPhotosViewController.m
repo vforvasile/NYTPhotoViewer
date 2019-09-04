@@ -57,6 +57,9 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 @end
 
 @implementation NYTPhotosViewController
+{
+    UIBarButtonItem *sharebarBtn;
+}
 
 #pragma mark - NSObject
 
@@ -203,17 +206,16 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
         face.bounds = CGRectMake( 0, 0, faceImage.size.width+5, faceImage.size.height );
         [face setImage:faceImage forState:UIControlStateNormal];
+        [face addTarget:self action:@selector(showProjectDetailTapped:) forControlEvents:UIControlEventTouchDown];
         UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
-        
+        ///
         UIImage *shareImage = [UIImage imageNamed:@"ic_share.png"];
         UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         shareBtn.bounds = CGRectMake( 0, 0, shareImage.size.width, shareImage.size.height );
         [shareBtn setImage:shareImage forState:UIControlStateNormal];
-        UIBarButtonItem *sharebarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
-//
-       // UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showProjectDetailTapped:)];
+        [shareBtn addTarget:self action:@selector(actionButtonTapped:) forControlEvents:UIControlEventTouchDown];
+        sharebarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
 
-        /////
         v.rightBarButtonItems = @[sharebarBtn,faceBtn];
         v;
     });
@@ -295,6 +297,8 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 
 - (void)showProjectDetailTapped:(id)sender {
     
+    [self dismissViewControllerAnimated:YES userInitiated:YES completion:nil];
+
     if ([self.delegate respondsToSelector:@selector(photosViewOpenProjectDetailControllerDidDismiss:)]) {
         [self.delegate photosViewOpenProjectDetailControllerDidDismiss:self];
     }
@@ -314,7 +318,7 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         //UIImage *image = self.currentlyDisplayedPhoto.image ? self.currentlyDisplayedPhoto.image : [UIImage imageWithData:self.currentlyDisplayedPhoto.imageData];
         NSURL *imageURL = [NSURL URLWithString:photo.imageURL];
         UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[imageURL] applicationActivities:nil];
-        activityViewController.popoverPresentationController.barButtonItem = sender;
+        activityViewController.popoverPresentationController.barButtonItem = sharebarBtn;
         activityViewController.completionWithItemsHandler = ^(NSString * __nullable activityType, BOOL completed, NSArray * __nullable returnedItems, NSError * __nullable activityError) {
             if (completed && [self.delegate respondsToSelector:@selector(photosViewController:actionCompletedWithActivityType:)]) {
                 [self.delegate photosViewController:self actionCompletedWithActivityType:activityType];
