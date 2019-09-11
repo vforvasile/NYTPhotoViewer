@@ -29,6 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 */
 @property (nonatomic, readonly, nullable) NSString *imageURL;
 
+
+/**
+ *  
+ */
+@property (nonatomic, readonly) BOOL showProjectDetailButton;
+
 /**
  *  The image data to display.
  *  
