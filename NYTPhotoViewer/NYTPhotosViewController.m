@@ -202,21 +202,25 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         v.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NYTPhotoViewerCloseButtonX" inBundle:[NSBundle nyt_photoViewerResourceBundle] compatibleWithTraitCollection:nil] landscapeImagePhone:[UIImage imageNamed:@"NYTPhotoViewerCloseButtonXLandscape" inBundle:[NSBundle nyt_photoViewerResourceBundle] compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonTapped:)];
         v.leftBarButtonItem.imageInsets = NYTPhotosViewControllerCloseButtonImageInsets;
         ////
-        UIImage *faceImage = [UIImage imageNamed:@"info.png"];
-        UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
-        face.bounds = CGRectMake( 0, 0, faceImage.size.width+5, faceImage.size.height );
-        [face setImage:faceImage forState:UIControlStateNormal];
-        [face addTarget:self action:@selector(showProjectDetailTapped:) forControlEvents:UIControlEventTouchDown];
-        UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
+        UIImage *infoImage = [UIImage imageNamed:@"info.png"];
+        UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        infoBtn.bounds = CGRectMake( 0, 5, 30, 40 );
+        [infoBtn setImage:infoImage forState:UIControlStateNormal];
+        [infoBtn addTarget:self action:@selector(showProjectDetailTapped:) forControlEvents:UIControlEventTouchDown];
+        UIBarButtonItem *infoBarBtn = [[UIBarButtonItem alloc] initWithCustomView:infoBtn];
         ///
         UIImage *shareImage = [UIImage imageNamed:@"ic_share.png"];
         UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        shareBtn.bounds = CGRectMake( 0, 0, shareImage.size.width, shareImage.size.height );
+        shareBtn.bounds = CGRectMake( 0, 5, 30, 40);
         [shareBtn setImage:shareImage forState:UIControlStateNormal];
         [shareBtn addTarget:self action:@selector(actionButtonTapped:) forControlEvents:UIControlEventTouchDown];
         sharebarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
 
-        v.rightBarButtonItems = @[sharebarBtn,faceBtn];
+        v.rightBarButtonItems = @[sharebarBtn,infoBarBtn];
+
+        if (!self.currentlyDisplayedPhoto.showProjectDetailButton) {
+            v.rightBarButtonItems = @[sharebarBtn];
+        }
         v;
     });
 
