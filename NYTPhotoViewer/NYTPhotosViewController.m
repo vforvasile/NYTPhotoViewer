@@ -204,14 +204,14 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         ////
         UIImage *infoImage = [UIImage imageNamed:@"info.png"];
         UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        infoBtn.bounds = CGRectMake( 0, 5, 30, 40 );
+        infoBtn.frame = CGRectMake( 0, 5, 30, 50 );
         [infoBtn setImage:infoImage forState:UIControlStateNormal];
         [infoBtn addTarget:self action:@selector(showProjectDetailTapped:) forControlEvents:UIControlEventTouchDown];
         UIBarButtonItem *infoBarBtn = [[UIBarButtonItem alloc] initWithCustomView:infoBtn];
         ///
         UIImage *shareImage = [UIImage imageNamed:@"ic_share.png"];
         UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        shareBtn.bounds = CGRectMake( 0, 5, 30, 40);
+        shareBtn.frame = CGRectMake( 0, 5, 30, 50);
         [shareBtn setImage:shareImage forState:UIControlStateNormal];
         [shareBtn addTarget:self action:@selector(actionButtonTapped:) forControlEvents:UIControlEventTouchDown];
         sharebarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
