@@ -19,6 +19,7 @@
 
 @property (nonatomic) UINavigationItem *navigationItem;
 @property (nonatomic) UINavigationBar *navigationBar;
+@property (nonatomic) NSArray <UIButton *> *additionalButtons;
 
 @end
 
@@ -56,7 +57,7 @@
     }];
     
     [super layoutSubviews];
-
+    
     if ([self.captionView conformsToProtocol:@protocol(NYTPhotoCaptionViewLayoutWidthHinting)]) {
         [(id<NYTPhotoCaptionViewLayoutWidthHinting>) self.captionView setPreferredMaxLayoutWidth:self.bounds.size.width];
     }
@@ -104,7 +105,7 @@
     
     self.captionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.captionView];
-
+    
     if ([self respondsToSelector:@selector(safeAreaLayoutGuide)] && self.captionViewRespectsSafeArea) {
         NSLayoutConstraint *bottomConstraint = [self.captionView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor];
         NSLayoutConstraint *leftConstraint = [self.captionView.leftAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leftAnchor];
@@ -148,6 +149,40 @@
 
 - (void)setRightBarButtonItems:(NSArray *)rightBarButtonItems {
     [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:NO];
+}
+
+- (NSArray *)additionalButtonItems {
+    return self.additionalButtons;
+}
+
+- (void)setAdditionalButtonItems:(NSArray *)additionalButtons {
+    for (UIButton* button in self.additionalButtons) {
+        [button removeFromSuperview];
+    }
+    
+    self.additionalButtons = additionalButtons;
+    
+    [additionalButtons enumerateObjectsUsingBlock:^(UIButton*  _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        [self addSubview:button];
+        if (@available(iOS 9.0, *)) {
+            button.translatesAutoresizingMaskIntoConstraints = false;
+            
+            if (idx == 0) {
+                [[button.topAnchor constraintEqualToAnchor: self.navigationBar.bottomAnchor constant: 8] setActive:true];
+                
+            } else {
+                UIButton* previousbutton = additionalButtons[idx - 1];
+                [[button.topAnchor constraintEqualToAnchor: previousbutton.bottomAnchor constant: 8] setActive:true];
+            }
+            
+            [[button.rightAnchor constraintEqualToAnchor: self.rightAnchor constant: -20] setActive:true];
+            [[button.widthAnchor constraintEqualToConstant:button.bounds.size.width] setActive:true];
+            [[button.heightAnchor constraintEqualToConstant:button.bounds.size.height] setActive:true];
+        } else {
+            // Fallback on earlier versions
+        }
+    }];
 }
 
 - (NSString *)title {

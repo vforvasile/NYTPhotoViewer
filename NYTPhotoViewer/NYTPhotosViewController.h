@@ -199,8 +199,6 @@ extern NSString * const NYTPhotosViewControllerDidDismissNotification;
  */
 - (void)photosViewControllerDidDismiss:(NYTPhotosViewController *)photosViewController;
 
-- (void)photosViewOpenProjectDetailControllerDidDismiss:(NYTPhotosViewController *)photosViewController;
-
 /**
  *  Returns a view to display over a photo, full width, locked to the bottom, representing the caption for the photo.
  *
@@ -299,6 +297,57 @@ extern NSString * const NYTPhotosViewControllerDidDismissNotification;
  *  @param activityType         The activity type that was successfully shared.
  */
 - (void)photosViewController:(NYTPhotosViewController *)photosViewController actionCompletedWithActivityType:(NSString * _Nullable)activityType;
+
+/**
+ *  Called when the action button is tapped.
+ *
+ *  @param photosViewController The `NYTPhotosViewController` instance that sent the delegate message.
+ *  @param photo                The photo being displayed when the action button was tapped.
+ */
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickShare:(id <NYTPhoto>)photo;
+
+/**
+ Did click collect photo
+ */
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo;
+
+/**
+ Did click uncollect photo
+ */
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickUncollectPhoto:(id<NYTPhoto>)photo;
+
+/**
+ Did click similar images
+ */
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickSimilarImages:(id<NYTPhoto>)photo;
+
+/**
+ Did click download photo
+ */
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickDownload:(id<NYTPhoto>)photo;
+
+
+/**
+ Is collect enabled
+ */
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isCollectEnabled:(id<NYTPhoto>)photo;
+
+
+/**
+ Is download enabled
+ */
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isDownloadEnabled:(id<NYTPhoto>)photo;
+
+
+/**
+ is Similar Images Enabled
+ */
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isSimilarImagesEnabled:(id<NYTPhoto>)photo;
+
+/**
+ Should dismiss on collect
+ */
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController shouldDismissOnCollect:(id<NYTPhoto>)photo;
 
 @end
 

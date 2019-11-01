@@ -29,11 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 */
 @property (nonatomic, readonly, nullable) NSString *imageURL;
 
-
 /**
- *  
+ Is collected
  */
-@property (nonatomic, readonly) BOOL showProjectDetailButton;
+@property(nonatomic) BOOL isCollected;
 
 /**
  *  The image data to display.
