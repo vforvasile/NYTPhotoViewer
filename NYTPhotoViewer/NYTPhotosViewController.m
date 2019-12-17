@@ -370,7 +370,7 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         }
     }
     
-    if ([self.delegate respondsToSelector:@selector(photosViewController:shouldDismissOnCollect:)] && [self.delegate respondsToSelector:@selector(photosViewController:shouldDismissOnCollect:)]) {
+    if ([self.delegate respondsToSelector:@selector(photosViewController:shouldDismissOnCollect:)] && [self.delegate photosViewController: self shouldDismissOnCollect: self.currentlyDisplayedPhoto]) {
         [self doneButtonTapped:nil];
     }
     
