@@ -353,25 +353,26 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
         };
         [self displayActivityViewController:activityViewController animated:YES];
         
-        if ([self.delegate respondsToSelector:@selector(photosViewController:didClickShare:)]) {
-            [self.delegate photosViewController:self didClickShare: self.currentlyDisplayedPhoto];
+        if ([self.delegate respondsToSelector:@selector(photosViewController:didClickShare:withPhotoIndex:)]) {
+            [self.delegate photosViewController:self didClickShare:photo withPhotoIndex:photoIndex];
         }
     }
 }
 
 - (void)collectUncollectActionTapped:(id)sender {
+    NSUInteger photoIndex = [self.dataSource indexOfPhoto:self.currentlyDisplayedPhoto];
     if (self.currentlyDisplayedPhoto.isCollected) {
-        if ([self.delegate respondsToSelector:@selector(photosViewController:didClickUncollectPhoto:)]) {
-            [self.delegate photosViewController:self didClickUncollectPhoto: self.currentlyDisplayedPhoto];
+        if ([self.delegate respondsToSelector:@selector(photosViewController:didClickUncollectPhoto:withPhotoIndex:)]) {
+            [self.delegate photosViewController:self didClickUncollectPhoto:self.currentlyDisplayedPhoto withPhotoIndex:photoIndex];
         }
     } else {
-        if ([self.delegate respondsToSelector:@selector(photosViewController:didClickCollectPhoto:)]) {
-            [self.delegate photosViewController:self didClickCollectPhoto: self.currentlyDisplayedPhoto];
+        if ([self.delegate respondsToSelector:@selector(photosViewController:didClickCollectPhoto:withPhotoIndex:)]) {
+            [self.delegate photosViewController:self didClickCollectPhoto: self.currentlyDisplayedPhoto withPhotoIndex:photoIndex];
         }
     }
     
     if ([self.delegate respondsToSelector:@selector(photosViewController:shouldDismissOnCollect:)] && [self.delegate photosViewController: self shouldDismissOnCollect: self.currentlyDisplayedPhoto]) {
-        [self doneButtonTapped:nil];
+        [self doneButtonTapped: nil];
     }
     
     // Update is collected
@@ -382,13 +383,15 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 }
 
 - (void)similarImagesActionTapped:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(photosViewController:didClickSimilarImages:)]) {
-        [self.delegate photosViewController:self didClickSimilarImages: self.currentlyDisplayedPhoto];
+    NSUInteger photoIndex = [self.dataSource indexOfPhoto:self.currentlyDisplayedPhoto];
+    if ([self.delegate respondsToSelector:@selector(photosViewController:didClickSimilarImages:withPhotoIndex:)]) {
+        [self.delegate photosViewController:self didClickSimilarImages: self.currentlyDisplayedPhoto  withPhotoIndex: photoIndex];
     }
 }
 - (void)downloadActionTapped:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(photosViewController:didClickDownload:)]) {
-        [self.delegate photosViewController:self didClickDownload: self.currentlyDisplayedPhoto];
+    NSUInteger photoIndex = [self.dataSource indexOfPhoto:self.currentlyDisplayedPhoto];
+    if ([self.delegate respondsToSelector:@selector(photosViewController:didClickDownload:withPhotoIndex:)]) {
+        [self.delegate photosViewController:self didClickDownload: self.currentlyDisplayedPhoto withPhotoIndex: photoIndex];
     }
 }
 

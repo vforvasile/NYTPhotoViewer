@@ -304,40 +304,37 @@ extern NSString * const NYTPhotosViewControllerDidDismissNotification;
  *  @param photosViewController The `NYTPhotosViewController` instance that sent the delegate message.
  *  @param photo                The photo being displayed when the action button was tapped.
  */
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickShare:(id <NYTPhoto>)photo;
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickShare:(id <NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex;
 
 /**
  Did click collect photo
  */
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo;
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo withPhotoIndex: (NSUInteger) photoIndex;
 
 /**
  Did click uncollect photo
  */
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickUncollectPhoto:(id<NYTPhoto>)photo;
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickUncollectPhoto:(id<NYTPhoto>)photo withPhotoIndex: (NSUInteger) photoIndex;
 
 /**
  Did click similar images
  */
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickSimilarImages:(id<NYTPhoto>)photo;
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickSimilarImages:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex;
 
 /**
  Did click download photo
  */
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickDownload:(id<NYTPhoto>)photo;
-
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickDownload:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex;
 
 /**
  Is collect enabled
  */
 - (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isCollectEnabled:(id<NYTPhoto>)photo;
 
-
 /**
  Is download enabled
  */
 - (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isDownloadEnabled:(id<NYTPhoto>)photo;
-
 
 /**
  is Similar Images Enabled
